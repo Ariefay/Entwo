@@ -19,9 +19,13 @@ bool led3Run = false;
 bool led4Run = false;
 
 int parameter = 0;
-const int freq = 5000;
-const int ledChannel = 0;
-const int resolution = 8;
+int brightness1 = 0;
+int brightness2 = 0;
+int brightness3 = 0;
+int brightness4 = 0;
+//const int freq = 5000;
+//const int ledChannel = 0;
+//const int resolution = 8;
 
 
 
@@ -39,8 +43,7 @@ void setup() {
   digitalWrite(led3, LOW);
   digitalWrite(led4, LOW);
 
-  ledcSetup(ledChannel, freq, resolution);
-  ledcAttachPin(led1, ledChannel);
+// 
 
 }
 
@@ -115,8 +118,36 @@ void ledCurrent(){
        Serial.println("LED 4 is turned OFF"); // send action to Serial Monitor  
      }
 
-        else {
-      Serial.println("INVALID COMMAND");
+    else if(command.startsWith("SET1/")){
+      int parameter = command.substring(5).toInt(); 
+      parameter = constrain (parameter, 0, 255);
+      Serial.print("NOW Set:");
+      Serial.println(parameter);
+      ledcWrite(led1,parameter);
+    } 
+    else if(command.startsWith("SET2/")){
+      int parameter = command.substring(5).toInt(); 
+      parameter = constrain (parameter, 0, 255);
+      Serial.print("NOW Set:");
+      Serial.println(parameter);
+      ledcWrite(led2,parameter);
+    } 
+
+    else if(command.startsWith("SET3/")){
+      int parameter = command.substring(5).toInt(); 
+      parameter = constrain (parameter, 0, 255);
+      Serial.print("NOW Set:");
+      Serial.println(parameter);
+      ledcWrite(led3,parameter);
+    } 
+    else if(command.startsWith("SET4/")){
+      int parameter = command.substring(5).toInt(); 
+      parameter = constrain (parameter, 0, 255);
+      Serial.print("NOW Set:");
+      Serial.println(parameter);
+      ledcWrite(led4,parameter);
+    } else {
+      Serial.print("INVALID BRIGHTNESS");
       }
 
   }
@@ -170,22 +201,6 @@ void ledCurrent(){
    }
 
 
-// Brightness LED
-  if(Serial.available()>0){
-   String brightness = Serial.readString();
-   
-   if(brightness.startsWith("SET1/")){
-      int parameter = brightness.substring(5).toInt(); 
-      parameter = constrain (parameter, 0, 255);
-//      analogWrite(led1, parameter);
-      ledcWrite(ledChannel,parameter);
-      Serial.print("NOW Set:");
-      Serial.println(parameter);
-    } else {
-      Serial.print("INVALID BRIGHTNESS");
-      }
-
-  }
 
 
 
