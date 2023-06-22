@@ -65,84 +65,101 @@ void ledCurrent(){
 // IF Pertama Untuk Menyalakan dan Mematika LED
   if(Serial.available()) // if there is data comming
     {
-    String command = Serial.readStringUntil(';'); // read string until meet newline character
+    char command[10];
+    int commandLength = 0;
     Serial.print("LED Command : ");
     Serial.println(command);
+
+    char c = Serial.read();
+    if((c != '\n') && (c != '\r')){
+      Serial.print(c);
+    }
+
+    String commandS(command);
     
-  if(command == "ON1")
+  if(commandS == "ON1")
     {    
       led1Run = true;
       digitalWrite(led1, HIGH); // turn on LED
       Serial.println("LED 1 is turned ON"); // send action to Serial Monitor 
     }
-  else if(command == "OFF1")
+  else if(commandS == "OFF1")
     {
       led1Run = false;
       digitalWrite(led1, LOW);  // turn off LED
       Serial.println("LED 1 is turned OFF"); // send action to Serial Monitor  
     }
-  else if(command == "ON2")
+  else if(commandS == "ON2")
     {    
       led2Run = true;
       digitalWrite(led2, HIGH); // turn on LED
       Serial.println("LED 2 is turned ON"); // send action to Serial Monitor 
     }
-  else if(command == "OFF2")
+  else if(commandS == "OFF2")
     {
       led2Run = false;
       digitalWrite(led2, LOW);  // turn off LED
       Serial.println("LED 2 is turned OFF"); // send action to Serial Monitor  
     }
-  else if(command == "ON3")
+  else if(commandS == "ON3")
     {    
       led3Run = true;
       digitalWrite(led3, HIGH); // turn on LED
       Serial.println("LED 3 is turned ON"); // send action to Serial Monitor 
     }
-  else if(command == "OFF3")
+  else if(commandS == "OFF3")
     {
       led3Run = false;
       digitalWrite(led3, LOW);  // turn off LED
       Serial.println("LED 3 is turned OFF"); // send action to Serial Monitor  
     }
-   else if(command == "ON4")
+   else if(commandS == "ON4")
      {    
        led4Run = true;
        digitalWrite(led4, HIGH); // turn on LED
        Serial.println("LED 4 is turned ON"); // send action to Serial Monitor 
      }
-   else if(command == "OFF4")
+   else if(commandS == "OFF4")
      {
        led4Run = false;
        digitalWrite(led4, LOW);  // turn off LED
        Serial.println("LED 4 is turned OFF"); // send action to Serial Monitor  
      }
 
-    else if(command.startsWith("SET1/")){
-      int parameter = command.substring(5).toInt(); 
+    else if(commandS.startsWith("SET1/")){
+      int parameter = commandS.substring(5).toInt(); 
+      int atoi(const char*parameter);
       parameter = constrain (parameter, 0, 255);
+      
       Serial.print("NOW Set:");
       Serial.println(parameter);
       ledcWrite(led1,parameter);
     } 
-    else if(command.startsWith("SET2/")){
-      int parameter = command.substring(5).toInt(); 
+    else if(commandS.startsWith("SET2/")){
+      int parameter = commandS.substring(5).toInt(); 
+      int atoi(const char*parameter);
       parameter = constrain (parameter, 0, 255);
+      
       Serial.print("NOW Set:");
       Serial.println(parameter);
+
       ledcWrite(led2,parameter);
     } 
 
-    else if(command.startsWith("SET3/")){
-      int parameter = command.substring(5).toInt(); 
+    else if(commandS.startsWith("SET3/")){
+      int parameter = commandS.substring(5).toInt(); 
+      int atoi(const char*parameter);
       parameter = constrain (parameter, 0, 255);
+      
       Serial.print("NOW Set:");
       Serial.println(parameter);
       ledcWrite(led3,parameter);
     } 
-    else if(command.startsWith("SET4/")){
-      int parameter = command.substring(5).toInt(); 
+    else if(commandS.startsWith("SET4/")){
+      int parameter = commandS.substring(5).toInt(); 
+      int atoi(const char*parameter);
       parameter = constrain (parameter, 0, 255);
+
       Serial.print("NOW Set:");
       Serial.println(parameter);
       ledcWrite(led4,parameter);
