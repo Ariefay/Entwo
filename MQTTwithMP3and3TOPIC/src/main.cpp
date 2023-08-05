@@ -17,10 +17,8 @@ const int onTime1 = 2000; // Interval 2 second
 const int offTime1 = 2000;
 
 // WiFi
-// const char *ssid = "DEV UJI_COBA";    // Enter your Wi-Fi name
-// const char *password = "ujicobadulu"; // Enter Wi-Fi password
-const char *ssid = "Dzakyfio";    // Enter your Wi-Fi name
-const char *password = "wiwis2305"; // Enter Wi-Fi password
+const char *ssid = "NOCOLA_DEV_ATAS";   // Enter your Wi-Fi name
+const char *password = "NOCOLADEV2021"; // Enter Wi-Fi password
 
 // MQTT Broker
 const char *mqtt_broker = "broker.emqx.io";
@@ -42,7 +40,7 @@ DFRobotDFPlayerMini myDFPlayer;
 WiFiClient espClient;
 PubSubClient client(espClient);
 void DFPlayerCommand(String data);
-void StopCommand(String data);
+void StopCommand(String);
 void BlinkCommand(String data);
 void callback(char *topic, byte *payload, unsigned int length);
 
@@ -144,63 +142,31 @@ void callback(char *topic, byte *payload, unsigned int length)
   }
 }
 
-void StopCommand(String data)
+void StopCommand(String)
 {
-  // Declaration Function
-  String injunction;
-  injunction = data.substring(0);
-
-  Serial.print("Task = ");
-  Serial.println(injunction);
-
-  // Parsing Work
-  if (injunction == "STOP")
-  {
-    Serial.println("MP3 STOP");
-    myDFPlayer.reset();
-    Serial.println("-----------------------");
-  }
-  else
-  {
-    Serial.println("STOP COMMAND IS WRONG");
-    Serial.println("-----------------------");
-  }
+  myDFPlayer.reset();
+  Serial.println("MP3 STOP");
 }
 
 void DFPlayerCommand(String data)
 {
 
   // Declaration Function
-  String command;
   String order;
   int trackNumber;
   int VolumeMP3 = 20;
 
-  // Parsing Data
-  byte separator = data.indexOf(';');
-  command = data.substring(0, separator);
-  order = data.substring(separator + 1);
+  // Parsing Data and Change String to Integer
+  order = data.substring(0);
   trackNumber = order.toInt();
-
-  Serial.print("Task = ");
-  Serial.println(command);
 
   Serial.print("Track Number = ");
   Serial.println(trackNumber);
 
-  // Parsing Work
-  if (command == "PLAY")
-  {
-    Serial.println("MP3 PLAY");
-    myDFPlayer.volume(VolumeMP3);
-    myDFPlayer.play(trackNumber);
-    Serial.println("-----------------------");
-  }
-  else
-  {
-    Serial.println("PLAY COMMAND IS WRONG");
-    Serial.println("-----------------------");
-  }
+  // Serial.println("MP3 PLAY");
+  myDFPlayer.volume(VolumeMP3);
+  myDFPlayer.play(trackNumber);
+  Serial.println("-----------------------");
 }
 
 void BlinkCommand(String data)
